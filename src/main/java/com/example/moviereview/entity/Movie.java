@@ -2,10 +2,7 @@ package com.example.moviereview.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,9 +10,11 @@ import javax.persistence.Id;
 @Getter
 @ToString
 @Entity
+@Table(name = "movie")
 public class Movie extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "mno")
     private Long mno;
     private String title;
 

@@ -10,9 +10,11 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Entity
+@Table(name = "review")
 public class Review extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rno")
     private Long rno;
 
     @ManyToOne(fetch = FetchType.LAZY)

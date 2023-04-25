@@ -10,10 +10,23 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
+  ## 데이터베이스 연결
   datasource:
     url: jdbc:mysql://localhost:3306/movie_db
     username: movie
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  ## 파일 업로드를 위한 설정
+  servlet:
+    multipart:
+      enabled: true
+      location: C:\\upload
+      # 한번에 업로드 가능한 용량
+      max-request-size: 30MB
+      # 파일 하나의 최대 크기
+      max-file-size: 10MB
+
+
+
 

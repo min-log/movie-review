@@ -11,10 +11,12 @@ import javax.persistence.*;
 @Getter
 @ToString (exclude = "movie")
 @Entity
+@Table(name = "movie_image")
 public class MovieImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "inum")
     private Long inum;
 
     private String uuid;

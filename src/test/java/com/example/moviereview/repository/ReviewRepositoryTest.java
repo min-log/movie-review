@@ -7,7 +7,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReviewRepositoryTest {
 
     @Autowired
-    private ReviewRepository repository;
+    private MemberRepository memberRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Test
     @DisplayName("저장 - 테스트 데이터")
@@ -34,8 +39,41 @@ class ReviewRepositoryTest {
                     .text("영화 감상평..." + i)
                     .build();
 
-            repository.save(review);
+            reviewRepository.save(review);
         });
+    }
+
+    //
+    @Test
+    @DisplayName("특정 영화 리뷰 리스트 상세")
+    public void testReviewList(){
+        Movie movie = Movie.builder().mno(10L).build();
+        List<Review> result = reviewRepository.findByMovie(movie);
+        result.forEach(i -> {
+            System.out.println(i.getRno());
+            System.out.println(i.getGrade());
+            System.out.println(i.getText());
+            System.out.println(i.getMember().getEmail());
+            System.out.println("--------------------------");
+        });
+
+    }
+
+    @Commit
+    @Transactional
+    @Test
+    @DisplayName("회원 번호로 리뷰제거")
+    public void testDeleteMember(){
+        Long id = 3L;
+
+        Member member = Member.builder()
+                .mid(id).build();
+
+        reviewRepository.deleteByMember(member);
+        memberRepository.deleteById(id);
+
+
+
     }
 
 }
