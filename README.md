@@ -43,7 +43,8 @@
 <br /><br />
 ## 📁 화면
 
-1. 영화 등록 페이지 
+####1. 영화 등록 페이지
+파일 등록 : 여러개의 이미지 등록 기능(PNG/JPG)
 <img src="https://user-images.githubusercontent.com/98336473/234621359-576dc667-751d-4fbb-960f-8c1fd387605a.png" style="">
 
 
