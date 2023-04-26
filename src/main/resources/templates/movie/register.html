@@ -4,29 +4,30 @@
       layout:decorate="~{layout/layoutBasic}">
 
 <th:block layout:fragment="content">
+<div class="bg-full">
   <div class="container">
-    <h1 class="mt-4">영화 등록</h1>
+    <div class="my-5 p-3 bg-body rounded shadow-sm">
+    <h4 class="h4 border-bottom pb-3">영화 등록</h4>
     <form th:action="@{/movie/register}" th:method="post" >
-      <div class="form-group">
-        <label class="form-label tit">제목</label>
+      <div class="form-group mt-3">
+        <label class="form-label">제목</label>
         <input type="text" class="form-control" aria-label="file example" name="title" placeholder="영화 제목을 작성해주세요." required>
       </div>
-      <div class="form-group">
+      <div class="form-group mt-3">
         <label class="form-label">이미지 올리기</label>
         <div class="custom-file">
           <input type="file" class="custom-file-input files form-control" id="fileInput" multiple >
-          <label class="custom-file-lable" data-browse="Browse"></label>
-          <div class="invalid-feedback">Example invalid form file feedback</div>
+          <label class="custom-file-lable mt-2" data-browse="Browse"></label>
         </div>
       </div>
-      <div class="uploadResult">
+      <div class="uploadResult mt-4 mb-4">
         <ul>
 
         </ul>
       </div>
-      <button type="submit" class="btn btn-primary">저장</button>
+      <button type="submit" class="btn btn-primary" style="width:100%">저장</button>
     </form>
-    <script>
+    <script type="text/javascript">
       $(document).ready(function (){
 
         // START 파일 업로드 ============================================
@@ -82,35 +83,38 @@
                  dataType : 'json',
                  success: function (result){
                      console.log(result);
+                     showUploadedImages(result);
                  },
-                  error:function (jqXHR,textStatus,erreThrown){
-                      console.log(textStatus)
+                  error:function (jqXHR,textStatus,errorThrown){
+                      console.log(textStatus);
                   }
               });
 
           });
 
           //파일 업로드 결과
-          function showResult(uploadResultArr){
+
+          function showUploadedImages(arr){
+              console.log(arr);
               var uploadUL = $('.uploadResult ul');
               var str = "";
-              $(uploadResultArr).each(function (i,obj){
-                 str += '<li data-name="' + obj.name + '"' + ' data-path="'
-                     + obj.folderPath +'" data-uuid="' + obj.uuid + '"  >';
-                 str += '<div>';
-                 str += '<button type="button" data-file=\"'+ obj.imageURL + '\" ' +
-                     'class="btn-warning btn-sm"> X </button> <br />';
-                 str += '<img src="/display?fileName='+ obj.thumbanilURL +'">';
-                 str += '</div>';
-                 str += '</li>';
-              });
+              for (var i = 0; i < arr.length; i++){
+                  str += "<li data-name='" + arr[i].name + "' data-path='" + arr[i].folderPath + "' data-uuid='" + arr[i].uuid + "' >";
+                    str += "<div>"
+                      str += "<button type='button' data-file='"+ arr[i].imageURL + "' class='btn-warning btn-sm'><i class=\"bi bi-dash-circle-fill\"></i></button>"
+                      str += "<img src='/display?fileName=" + arr[i].thumbnailURL +"'>";
+                    str += "</div>"
+                  str += "</li>";
+              }
               uploadUL.append(str);
           }
+
           // END 파일 업로드 ============================================
       });
     </script>
-
+    </div>
   </div>
+</div>
 </th:block>
 
 </html>

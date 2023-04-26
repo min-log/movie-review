@@ -13,10 +13,7 @@ import java.util.stream.Collectors;
 public interface MovieService {
     // 저장
     Long register(MovieDTO movieDTO);
-    //리스트 출력
-    // List<MovieDTO> getMovieList();
 
-    //movieDTO - > movie, movieImage 객채를 가지고 있다. Map으로 받아준다.
     default Map<String, Object> dtoToEntity(MovieDTO movieDTO){
         Map<String,Object> entityMap = new HashMap<>();
         //movie 객체

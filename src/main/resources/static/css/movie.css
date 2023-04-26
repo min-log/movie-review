@@ -1,4 +1,28 @@
-.uploadResult {width: 100%;background: #ccc;margin-top:10px;}
-.uploadResult ul {display: flex; flex-flow: row;justify-content: center;vertical-align: top;overflow: auto}
-.uploadResult ul li {padding:10px;margin-left: 2em;}
-.uploadResult ul li img {width:100px;}
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {font-family: 'Chosunilbo_myungjo' !important;}
+/* header / footer */
+header .logo {width:30px;height:auto;margin-right:10px;}
+footer {background: #000;}
+footer * {color:#fff;}
+footer .float-end a {text-decoration: none;color: #fff;}
+footer .float-end a .bi-eject-fill {font-size:20px; color: #fff;}
+
+
+.btn.btn-primary {background: #fa4f5f;border: #ccc 1px solid;}
+.bg-full {background:#eee;overflow: hidden;min-height:calc(100vh - 68px - 56px);}
+.h4 {font-weight: bold;}
+    /* 영화 등록 */
+.uploadResult {width: 100%;}
+.uploadResult ul {display: flex; flex-flow: row;justify-content:left;vertical-align: top;overflow: auto}
+.uploadResult ul li {position: relative;}
+.uploadResult ul li + li {margin-left: 2em;}
+.uploadResult ul li div {max-height: 200px;border:1px solid #ced4da;overflow:hidden;border-radius:5px;}
+.uploadResult ul li div img {width:200px;}
+.uploadResult ul li button {position: absolute;top: 5px;right: 5px;z-index: 1;border:0;padding:0;margin:0;background:none;}
+.uploadResult ul li button .bi-dash-circle-fill {font-size: 24px;color: #ff6500;}

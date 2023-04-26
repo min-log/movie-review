@@ -74,7 +74,7 @@ public class UploadController {
                 String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
                 File thumbnailFile = new File(thumbnailSaveName);
                 //썸네일 저장
-                Thumbnailator.createThumbnail(savePath.toFile(),thumbnailFile,100,100);
+                Thumbnailator.createThumbnail(savePath.toFile(),thumbnailFile,200,200);
 
             }catch ( IOException e){
                 e.printStackTrace();
