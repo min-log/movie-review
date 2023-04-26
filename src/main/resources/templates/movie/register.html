@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutBasic}">
+
+<th:block layout:fragment="content">
+  <div class="container">
+    <h1 class="mt-4">영화 등록</h1>
+    <form th:action="@{/movie/register}" th:method="post" >
+      <div class="form-group">
+        <label class="form-label tit">제목</label>
+        <input type="text" class="form-control" aria-label="file example" name="title" placeholder="영화 제목을 작성해주세요." required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">이미지 올리기</label>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input files form-control" id="fileInput" multiple >
+          <label class="custom-file-lable" data-browse="Browse"></label>
+          <div class="invalid-feedback">Example invalid form file feedback</div>
+        </div>
+      </div>
+      <div class="uploadResult">
+        <ul>
+
+        </ul>
+      </div>
+      <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+    <script>
+      $(document).ready(function (){
+
+        // START 파일 업로드 ============================================
+          var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$");
+          var maxSize = 10489760; //10MB
+
+          //올바른 파일인지 확인 하는 이벤트
+          function checkExtension(fileName,fileSize){
+              if (fileSize >= maxSize){
+                  alert("파일 사이즈를 초과했습니다.");
+                  return false;
+              }
+              if (regex.test(fileName)){
+                  alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+                  return false;
+              }
+              return true;
+          }
+
+          $(".custom-file-input").on("change",function (){
+             var fileName = $(this).val().split("\\").pop();
+             $(this).siblings(".custom-file-lable").addClass("selected").html(fileName);
+
+             var formData = new FormData();
+             var inputFile = $(this);
+             var files = inputFile[0].files;
+             var appended = false;
+
+             //업로드 파일이 있다면
+             for (var i = 0; i < files.length; i++){
+                 // 파일확장자, 사이즈 체크 - 일치 하지 않는다면 false 업로드 X
+                 if (!checkExtension(files[i].name, files[i].size)){
+                     return false;
+                 }
+                 console.log(files[i]);
+                 // 일치 한다면 업로드
+                 formData.append("uploadFiles", files[i]);
+                 appended = true;
+             }
+             //파일 업로드 X
+             if (!appended){return files}
+             for (var value of formData.values()){
+                 console.log(value);
+             }
+
+             /// 실제 업로드
+              $.ajax({
+                 url : '/uploadAjax',
+                 processData: false,
+                 contentType: false,
+                 data : formData,
+                 type : 'POST',
+                 dataType : 'json',
+                 success: function (result){
+                     console.log(result);
+                 },
+                  error:function (jqXHR,textStatus,erreThrown){
+                      console.log(textStatus)
+                  }
+              });
+
+          });
+
+          //파일 업로드 결과
+          function showResult(uploadResultArr){
+              var uploadUL = $('.uploadResult ul');
+              var str = "";
+              $(uploadResultArr).each(function (i,obj){
+                 str += '<li data-name="' + obj.name + '"' + ' data-path="'
+                     + obj.folderPath +'" data-uuid="' + obj.uuid + '"  >';
+                 str += '<div>';
+                 str += '<button type="button" data-file=\"'+ obj.imageURL + '\" ' +
+                     'class="btn-warning btn-sm"> X </button> <br />';
+                 str += '<img src="/display?fileName='+ obj.thumbanilURL +'">';
+                 str += '</div>';
+                 str += '</li>';
+              });
+              uploadUL.append(str);
+          }
+          // END 파일 업로드 ============================================
+      });
+    </script>
+
+  </div>
+</th:block>
+
+</html>

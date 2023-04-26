@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <input name="uploadFiles" type="file" multiple>
+  <button type="button" class="uploadBtn">Upload</button>
+
+  <div class="uploadResult">
+
+  </div>
+
+  <script type="text/javascript">
+
+
+    $('.uploadBtn').click(function (){
+        var formData = new FormData();
+        var inputFile = $('input[type="file"]');
+        var files = inputFile[0].files;
+
+        for ( var i = 0 ; i < files.length ; i++ ){
+           console.log(files[i]);
+           formData.append("uploadFiles", files[i]);
+       }
+        // 실제 업로드 부분
+        // upload ajax
+        $.ajax({
+            url:'/uploadAjax',
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            dataType:'json',
+            success: function (result){
+                //
+                // console.log(result);
+                showUploadedImages(result);
+            },
+            error: function (jqXHP,testStatus,errorThrown){
+                console.log(testStatus);
+            }
+        });
+    });
+    // 파일 업로드 실행 성공시 화면에 이미지 파일 출력
+    function showUploadedImages(arr){
+        console.log(arr);
+        var divArea = $('.uploadResult');
+        var str = "";
+        for (var i = 0; i < arr.length; i++){
+            str += "<div>"
+            str += "<img src='/display?fileName=" + arr[i].thumbnailURL +"'>";
+            str += "<button class='removeBtn' data-name='" + arr[i].imageURL + "'> REMOVE </button>";
+            str += "</div>";
+        }
+        divArea.append(str);
+    }
+
+
+    //이미지 파일 제거
+    $(".uploadResult").on('click','.removeBtn', function (){
+        var target = $(this);
+        var fileName = target.data("name");
+        var targetDiv = $(this).closest("div");
+
+        console.log(fileName);
+
+        $.post('removeFile',{fileName:fileName},function (result){
+            console.log(result);
+            if (result === true){
+                targetDiv.remove();
+            }
+        })
+    })
+
+
+
+  </script>
+
+
+</body>
+</html>
