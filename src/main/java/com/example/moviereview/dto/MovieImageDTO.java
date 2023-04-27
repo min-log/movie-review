@@ -18,7 +18,7 @@ import java.net.URLEncoder;
 public class MovieImageDTO {
     private String uuid;
     private String imgName;
-    private String path;
+    private String path; //업로드 날짜
 
     public String getImageURL(){
         try {

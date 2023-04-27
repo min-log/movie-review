@@ -21,7 +21,8 @@ public class MovieController {
     }
     @PostMapping("/register")
     public String register(MovieDTO movieDTO, RedirectAttributes redirectAttributes){
-        log.info("movieDTO", movieDTO);
+        log.info("save ----------------------------------------");
+        log.info("movieDTO : {}", movieDTO);
         Long mno = movieService.register(movieDTO);
         redirectAttributes.addAttribute("msg",mno);
         return "redirect:/movie/list";

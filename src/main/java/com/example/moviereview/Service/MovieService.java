@@ -2,6 +2,8 @@ package com.example.moviereview.Service;
 
 import com.example.moviereview.dto.MovieDTO;
 import com.example.moviereview.dto.MovieImageDTO;
+import com.example.moviereview.dto.PageRequestDTO;
+import com.example.moviereview.dto.PageResultDTO;
 import com.example.moviereview.entity.Movie;
 import com.example.moviereview.entity.MovieImage;
 
@@ -39,6 +41,35 @@ public interface MovieService {
         }
         // movieImage가 없다면 movie 로 반환
         return entityMap;
+
+    }
+
+
+
+
+    //리스트 화면
+    PageResultDTO<MovieDTO,Object[]> getList(PageRequestDTO pageRequestDTO);
+
+    default MovieDTO entitiesToDTO(Movie movie,List<MovieImage> movieImageList, Double avg, Long reviewCnt){
+        MovieDTO movieDTO = MovieDTO.builder()
+                .mno(movie.getMno())
+                .title(movie.getTitle())
+                .regDate(movie.getRegDate())
+                .modDate(movie.getModDate()).build();
+
+        List<MovieImageDTO> movieImageDTOList = movieImageList.stream().map(movieImage -> {
+            return MovieImageDTO.builder()
+                    .imgName(movieImage.getImgName())
+                    .path(movieImage.getPath())
+                    .uuid(movieImage.getUuid())
+                    .build();
+        }).collect(Collectors.toList());
+
+        movieDTO.setImageDTOList(movieImageDTOList);
+        movieDTO.setAvg(avg);
+        movieDTO.setReviewCnt(reviewCnt.intValue());
+
+        return movieDTO;
 
     }
 
