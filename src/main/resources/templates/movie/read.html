@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutBasic}">
+
+<th:block layout:fragment="content">
+  <div class="movie_image_wrap">
+    <ul class="movie_slider">
+      <li th:each="movieImage : ${dto.imageDTOList}">
+        <img th:if="${movieImage.path != null}" th:src="|/display?fileName=${movieImage.getImageURL()}|" alt="">
+      </li>
+    </ul>
+  </div>
+  <div class="line-move"></div>
+  <div class="container">
+    <div class="my-5">
+      <h4 class="h4 border-bottom pb-3" th:text="${dto.title}">영화 제목</h4>
+      <div class="form-group mt-3">
+        <p>평점 : <span th:text="${dto.avg}">평점</span></p>
+        <p>조회수 : <span th:text="${dto.reviewCnt}">조회수</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- movie_image_wrap -->
+  <p class="border-top"></p>
+  <!-- 리뷰 리스트 -->
+  <div class="container my-5">
+    <h4 class="h4 border-bottom pb-3" >" [[${dto.title}]] " 리뷰 남기기 👀</h4>
+    <div class="form-group mt-3">
+      <label class="form-label">별점을 선택해주세요.</label>
+      <input type="text" class="form-control" aria-label="file example" name="title" placeholder="영화 제목을 작성해주세요." required>
+    </div>
+    <div class="form-group mt-3">
+      <label class="form-label">감상평을 남겨주세요.</label>
+      <input type="text" class="form-control" aria-label="file example" name="title" placeholder="영화 제목을 작성해주세요." required>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3" style="width:100%">저장</button>
+  </div>
+
+  <div class="review_wrap">
+    <div class="container">
+
+    </div>
+    <div class="bg-full">
+      <div class="container pt-5">
+          <h4 class="h4 border-bottom pb-3">영화 리뷰
+            <span class="total">10개</span>
+          </h4>
+          <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <p class="review_txt">내용</p>
+            <p class="date">날짜</p>
+            <p class="score">점수</p>
+          </div>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+          <p class="review_txt">내용</p>
+          <p class="date">날짜</p>
+          <p class="score">점수</p>
+        </div>
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+          <p class="review_txt">내용</p>
+          <p class="date">날짜</p>
+          <p class="score">점수</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function (){
+        $('.movie_slider').slick();
+
+    });
+  </script>
+</th:block>
+
+</html>

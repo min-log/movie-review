@@ -1,5 +1,9 @@
 package com.example.moviereview.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -8,6 +12,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
+@Data
+@AllArgsConstructor
+@Builder
 public class PageResultDTO<DTO,EN> {
     // 페이지에 전달할 값
 
@@ -42,8 +50,8 @@ public class PageResultDTO<DTO,EN> {
         this.page = pageable.getPageNumber() + 1;
         this.size = pageable.getPageSize();
 
-        int tempEnd = (int)(Math.ceil(page/10.0))*10;
-        start = tempEnd - 9;
+        int tempEnd = (int)(Math.ceil(page/9.0))*9;
+        start = tempEnd - 8;
         prev = start > 1;
         end = totalPage > tempEnd ? tempEnd : totalPage;
         next = totalPage > tempEnd;

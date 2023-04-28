@@ -50,7 +50,7 @@ Controller : MovieController, UploadController
 
 Entity : Movie, MovieImage <br >
 Dto : MovieDto, MovieImageDTO <br >
-Repository : MovieRepository <br >
+Repository : MovieRepository(interface) <br >
 Service : MovieService(interface) , MovieServiceImpl
 <br>
 <br>

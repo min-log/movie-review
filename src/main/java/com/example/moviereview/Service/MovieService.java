@@ -44,10 +44,7 @@ public interface MovieService {
 
     }
 
-
-
-
-    //리스트 화면
+    //start 리스트 화면
     PageResultDTO<MovieDTO,Object[]> getList(PageRequestDTO pageRequestDTO);
 
     default MovieDTO entitiesToDTO(Movie movie,List<MovieImage> movieImageList, Double avg, Long reviewCnt){
@@ -55,7 +52,7 @@ public interface MovieService {
                 .mno(movie.getMno())
                 .title(movie.getTitle())
                 .regDate(movie.getRegDate())
-                .modDate(movie.getModDate()).build();
+                .modDate(movie.getModDate()).build(); // [0] - movie
 
         List<MovieImageDTO> movieImageDTOList = movieImageList.stream().map(movieImage -> {
             return MovieImageDTO.builder()
@@ -65,12 +62,15 @@ public interface MovieService {
                     .build();
         }).collect(Collectors.toList());
 
-        movieDTO.setImageDTOList(movieImageDTOList);
-        movieDTO.setAvg(avg);
-        movieDTO.setReviewCnt(reviewCnt.intValue());
+        movieDTO.setImageDTOList(movieImageDTOList);// [1] - movieImage
+        movieDTO.setAvg(avg);// [2] - avg
+        movieDTO.setReviewCnt(reviewCnt.intValue());// [3] - reviewCnt
 
         return movieDTO;
 
     }
+    //end 리스트 화면
 
+    //start 상세
+    MovieDTO getMovie(Long mno);
 }
