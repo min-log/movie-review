@@ -12,10 +12,10 @@
     </ul>
   </div>
   <div class="line-move"></div>
-  <div class="container">
+  <div class="container movie_info">
     <div class="my-5">
       <h4 class="h4 border-bottom pb-3" th:text="${dto.title}">영화 제목</h4>
-      <div class="form-group mt-3">
+      <div class="form-group mt-3 movie_info_con">
         <p>평점 : <span th:text="${dto.avg}">평점</span></p>
         <p>조회수 : <span th:text="${dto.reviewCnt}">조회수</span></p>
       </div>
@@ -26,7 +26,7 @@
   <p class="border-top"></p>
   <!-- 리뷰 리스트 -->
   <div class="container my-5">
-    <h4 class="h4 border-bottom pb-3" >" [[${dto.title}]] " 리뷰 남기기 👀</h4>
+    <h4 class="h4 border-bottom pb-3" >👀 " [[${dto.title}]] " 리뷰 남기기</h4>
     <div class="form-group mt-3">
       <label class="form-label">별점을 선택해주세요.</label>
       <input type="text" class="form-control" aria-label="file example" name="title" placeholder="영화 제목을 작성해주세요." required>
@@ -43,25 +43,24 @@
 
     </div>
     <div class="bg-full">
-      <div class="container pt-5">
-          <h4 class="h4 border-bottom pb-3">영화 리뷰
+      <div class="container review_wrap pt-5">
+          <h4 class="h4 border-bottom pb-3">👀 영화 리뷰
             <span class="total">10개</span>
           </h4>
           <div class="my-3 p-3 bg-body rounded shadow-sm">
             <p class="review_txt">내용</p>
-            <p class="date">날짜</p>
-            <p class="score">점수</p>
+            <div class="review_info mt-2">
+                <p class="score">점수</p>
+                <p class="date">날짜</p>
+            </div>
           </div>
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-          <p class="review_txt">내용</p>
-          <p class="date">날짜</p>
-          <p class="score">점수</p>
-        </div>
-        <div class="my-3 p-3 bg-body rounded shadow-sm">
-          <p class="review_txt">내용</p>
-          <p class="date">날짜</p>
-          <p class="score">점수</p>
-        </div>
+          <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <p class="review_txt">내용</p>
+            <div class="review_info mt-2">
+              <p class="score">점수</p>
+              <p class="date">날짜</p>
+            </div>
+          </div>
       </div>
     </div>
   </div>
