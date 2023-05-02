@@ -1,0 +1,18 @@
+.review_form {text-align: center;}
+.starrr {
+  display:block; }
+.starrr a {
+  width: 30px;
+  height: 30px;
+  padding: 0 1px;
+  cursor: pointer;
+  text-decoration: none;
+  background-image: url("/image/icon_start_off.png");
+  background-size:cover !important;
+  text-indent:-9999999999px;
+}
+.starrr a + a {margin-left: 10px;}
+.starrr a:before {content: "";}
+.starrr a.fa-star {
+  background-image: url("/image/icon_start_on.png");
+}

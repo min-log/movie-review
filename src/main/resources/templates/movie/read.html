@@ -4,6 +4,11 @@
       layout:decorate="~{layout/layoutBasic}">
 
 <th:block layout:fragment="content">
+  <link rel="stylesheet" th:href="@{/css/starrr.css}" src="../../static/css/starrr.css">
+  <link rel="stylesheet" th:href="@{http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css}">
+
+
+  <script type="text/javascript" th:src="@{/js/starrr.js}" src="../../static/js/starrr.js"></script>
   <div class="movie_image_wrap">
     <ul class="movie_slider">
       <li th:each="movieImage : ${dto.imageDTOList}">
@@ -25,17 +30,18 @@
   <!-- movie_image_wrap -->
   <p class="border-top"></p>
   <!-- 리뷰 리스트 -->
-  <div class="container my-5">
-    <h4 class="h4 border-bottom pb-3" >👀 " [[${dto.title}]] " 리뷰 남기기</h4>
-    <div class="form-group mt-3">
-      <label class="form-label">별점을 선택해주세요.</label>
-      <input type="text" class="form-control" aria-label="file example" name="title" placeholder="영화 제목을 작성해주세요." required>
-    </div>
-    <div class="form-group mt-3">
-      <label class="form-label">감상평을 남겨주세요.</label>
-      <input type="text" class="form-control" aria-label="file example" name="title" placeholder="영화 제목을 작성해주세요." required>
-    </div>
-    <button type="submit" class="btn btn-primary mt-3" style="width:100%">저장</button>
+  <div class="container review_form my-5">
+        <input type="hidden" name="mid" id="mid" value="1">
+        <h4 class="h4 border-bottom pb-3" >😍 " [[${dto.title}]] " 리뷰를 남겨보세요.</h4>
+        <div class="form-group mt-3">
+          <label class="form-label">별점을 선택해주세요. 'click!!'</label>
+          <div class='starrr'></div>
+        </div>
+        <div class="form-group mt-4">
+          <label class="form-label">감상평을 남겨주세요.</label>
+          <input type="text" class="form-control review_txt" aria-label="file example" name="title" placeholder="영화 리뷰를 작성해주세요." required>
+        </div>
+        <button type="button" id="reviewSave" class="btn btn-primary mt-3" style="width:100%">저장</button>
   </div>
 
   <div class="review_wrap">
@@ -44,30 +50,101 @@
     </div>
     <div class="bg-full">
       <div class="container review_wrap pt-5">
-          <h4 class="h4 border-bottom pb-3">👀 영화 리뷰
-            <span class="total">10개</span>
+          <h4 class="h4 border-bottom pb-3">👀 "[[${dto.title}]] " 리뷰
+            <span class="total">[[${dto.reviewCnt}]] 개</span>
           </h4>
-          <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <p class="review_txt">내용</p>
-            <div class="review_info mt-2">
-                <p class="score">점수</p>
-                <p class="date">날짜</p>
-            </div>
-          </div>
-          <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <p class="review_txt">내용</p>
-            <div class="review_info mt-2">
-              <p class="score">점수</p>
-              <p class="date">날짜</p>
-            </div>
+          <div class="review_list">
+
           </div>
       </div>
     </div>
   </div>
   <script>
-    $(document).ready(function (){
+    $(document).ready(function (e){
+        // 슬라이드 =======================================================
         $('.movie_slider').slick();
 
+        // 리뷰 =======================================================
+        let grade = 0; //점수
+        let mno = [[${dto.mno}]];// 영화번호
+        let inputMid = $('input#mid');//고객번호
+        let inputText = $('input.review_txt');//text
+
+        // 별점 선택 기능
+        $('.starrr').starrr({
+            rating: grade,
+            change: function(e, value){
+                if (value){
+                  grade = value;
+                }
+            }
+        });
+
+        // 리뷰 저장
+        $("#reviewSave").on('click',function (){
+            console.log(inputText.val())
+            if (inputText.val() == null || inputText.val() == ""){
+              alert("리뷰 내용을 작성해주세요.")
+
+            }else{
+              let data = {mno:mno, grade:grade,text:inputText.val(),mid:inputMid.val()}
+              console.log(data);
+               $.ajax({
+                   url:'/reviews/'+mno,
+                   type:'POST',
+                   data: JSON.stringify(data),
+                   contentType: 'application/json; charset=utf-8',
+                   dataType:"text",
+                   success:function (result){
+                       console.log("result : "+result);
+                       self.location.reload();// 재 로딩
+                   }
+               });
+            }
+        });
+
+        // 리뷰 삭제
+        $('#reviewDelete').on('click',function (){
+            let vv= $(this).parentNode("bg-body").data("reveiwnum");
+            alert(vv);
+        });
+
+        // 페이지가 새로 로딩되었을때 리뷰 리스트 보여주기
+        function getMovieReviews(){
+            function formatTime(str){
+                let data = new Date(str);
+                return data.getFullYear() + '/' +
+                    (data.getMonth() + 1) + '/' +
+                    data.getDate() + ' ' +
+                    //시간
+                    data.getHours() + ':' +
+                    data.getMinutes();
+            }
+
+
+          $.getJSON("/reviews/"+mno+"/all",function (arr){
+             let str = '';
+             $.each(arr,function (idx,review){
+                console.log(review);
+                str += '<div class="my-3 p-3 bg-body rounded shadow-sm" data-reveiwnum="' + review.reviewnum + '" data-mid="' + review.mid + '">';
+                  str += '            <p class="nickname "> '+ review.nickname +'</p>';
+                  str += '            <p class="txt mt-2"> '+ review.text +'</p>';
+                  str += '            <div class="review_info mt-2">';
+                    str += '                <p class="score">'+ review.grade +'</p>';
+                    str += '                <p class="date">' + formatTime(review.regDate)  +'</p>';
+                  str +=    '         </div>';
+                  str += '            <div class="review_btn mt-3 text-right">';
+                  str += '             <button id="reviewModify" class="btn btn-dark btn-sm" type="button">수정</button>'
+                  str += '             <button id="reviewDelete" class="btn btn-secondary btn-sm" type="button">삭제</button>'
+                  str +=    '         </div>';
+                str += '</div>'
+             });
+
+             $('.review_list').html(str);
+          });
+        }
+
+        getMovieReviews();
     });
   </script>
 </th:block>

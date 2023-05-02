@@ -5,13 +5,13 @@
     font-style: normal;
 }
 
-* {font-family: 'Chosunilbo_myungjo' !important;}
+* {font-family: 'Chosunilbo_myungjo' !important;line-height:1.4 !important;}
 a {text-decoration: none;}
 a {color:#000;}
 a:hover {color:#000;}
 /* header, footer */
 header .logo {width:30px;height:auto;margin-right:10px;}
-header .container {line-height:1.4em}
+header .container {line-height:1.4;}
 footer {background: #000;}
 footer * {color:#fff;}
 footer .float-end a {text-decoration: none;color: #fff;}
@@ -67,7 +67,8 @@ footer .float-end a .bi-eject-fill {font-size:20px; color: #fff;}
 .movie_info_con {display:flex;justify-content: space-between;}
 .movie_info_con > p {}
 
-.review_txt {font-size:20px;font-weight: bold;}
+.review_list .txt {font-size:18px;font-weight: bold;}
+.review_list .nickname {}
 .review_info {display: flex;justify-content: space-between;}
 
 @keyframes lineMove{
