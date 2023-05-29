@@ -53,9 +53,7 @@
           <h4 class="h4 border-bottom pb-3">👀 "[[${dto.title}]] " 리뷰
             <span class="total">[[${dto.reviewCnt}]] 개</span>
           </h4>
-          <div class="review_list">
-
-          </div>
+          <div class="review_list"></div>
       </div>
     </div>
   </div>
@@ -103,11 +101,6 @@
             }
         });
 
-        // 리뷰 삭제
-        $('#reviewDelete').on('click',function (){
-            let vv= $(this).parentNode("bg-body").data("reveiwnum");
-            alert(vv);
-        });
 
         // 페이지가 새로 로딩되었을때 리뷰 리스트 보여주기
         function getMovieReviews(){
@@ -122,26 +115,26 @@
             }
 
 
-          $.getJSON("/reviews/"+mno+"/all",function (arr){
-             let str = '';
-             $.each(arr,function (idx,review){
-                console.log(review);
-                str += '<div class="my-3 p-3 bg-body rounded shadow-sm" data-reveiwnum="' + review.reviewnum + '" data-mid="' + review.mid + '">';
-                  str += '            <p class="nickname "> '+ review.nickname +'</p>';
-                  str += '            <p class="txt mt-2"> '+ review.text +'</p>';
-                  str += '            <div class="review_info mt-2">';
-                    str += '                <p class="score">'+ review.grade +'</p>';
-                    str += '                <p class="date">' + formatTime(review.regDate)  +'</p>';
-                  str +=    '         </div>';
-                  str += '            <div class="review_btn mt-3 text-right">';
-                  str += '             <button id="reviewModify" class="btn btn-dark btn-sm" type="button">수정</button>'
-                  str += '             <button id="reviewDelete" class="btn btn-secondary btn-sm" type="button">삭제</button>'
-                  str +=    '         </div>';
-                str += '</div>'
-             });
+            $.getJSON("/reviews/"+mno+"/all",function (arr){
+               let str = '';
+               $.each(arr,function (idx,review){
+                  console.log(review);
+                  str += '<div class="my-3 p-3 bg-body rounded shadow-sm" data-reveiwnum="' + review.reviewnum + '" data-mid="' + review.mid + '">';
+                    str += '            <p class="nickname "> '+ review.nickname +'</p>';
+                    str += '            <p class="txt mt-2"> '+ review.text +'</p>';
+                    str += '            <div class="review_info mt-2">';
+                      str += '                <p class="score" >'+ review.grade +'</p>';
+                      str += '                <p class="date">' + formatTime(review.regDate)  +'</p>';
+                    str +=    '         </div>';
+                    str += '            <div class="review_btn mt-3 text-right">';
+                    str += '             <button id="reviewModify" class="btn btn-dark btn-sm" type="button">수정</button>'
+                    str += '             <button onClick="reviewDelete()" class="btn btn-secondary btn-sm" type="button">삭제</button>'
+                    str +=    '         </div>';
+                  str += '</div>'
+               });
 
-             $('.review_list').html(str);
-          });
+               $('.review_list').html(str);
+            });
         }
 
         getMovieReviews();
